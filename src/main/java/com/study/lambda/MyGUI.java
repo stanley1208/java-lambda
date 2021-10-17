@@ -22,6 +22,8 @@ public class MyGUI extends JFrame{
 				//greeting="Anything else";//修改區域變數
 			}
 		});
+		button.addActionListener(e->
+		response.setText(String.format(greeting, name.getText())));
 	}
 
 }
