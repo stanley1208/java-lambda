@@ -36,11 +36,11 @@ public class IterationForEach {
 		
 		System.out.println();
 		
-//		Map<Long, String>map=new HashMap<>();
-//		map.put(86L, "Don Adams");
-//		map.put(99L, "Barbara Feldon");
-//		map.put(13L, "David Feldon");
-//		map.forEach((num,agent)->System.out.printf("Agent %d, played by %s%n",num,agent));
+		Map<Long, String>map=new HashMap<>();
+		map.put(86L, "Don Adams");
+		map.put(99L, "Barbara Feldon");
+		map.put(13L, "David Feldon");
+		map.forEach((num,agent)->System.out.printf("Agent %d, played by %s%n",num,agent));
 	}
 	
 	
