@@ -1,6 +1,11 @@
 package com.study.lambda;
 
+import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.logging.Logger;
+import java.util.stream.Stream;
+
+import org.w3c.dom.ls.LSOutput;
 
 public class FunctionPractice {
 	public static void main(String[] args) {
@@ -23,5 +28,14 @@ public class FunctionPractice {
 		Function<Integer,String>plus2ToString=add2_3
 				.andThen(Object::toString);
 		System.out.println(plus2ToString.apply(1));
+		
+		Logger log=Logger.getLogger("a");
+		Consumer<String> printer=System.out::println;
+		Consumer<String>logger=log::info;
+		
+		Consumer<String>printThenLog=printer.andThen(logger);
+		Stream.of("this","is","a","stream","of","strings").forEach(printThenLog);
+		
+		
 	}
 }
