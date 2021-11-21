@@ -6,19 +6,19 @@ import java.util.stream.Collectors;
 
 
 
-public class lambdaException {
+public class unCheckedException {
 	public static void main(String[] args) {
 		List<Integer>values=Arrays.asList(30,10,40,10,50,90);
-//		List<Integer>scaled=lambdaException.div(values,10);
+//		List<Integer>scaled=unCheckedException.div(values,10);
 //		System.out.println(scaled);
-		
-//		scaled=lambdaException.div(values, 0);
+//		
+//		scaled=unCheckedException.div(values, 0);
 //		System.out.println(scaled);
 		
 		System.out.println(divUsingMethod(values,10));
 	
 	}
-	public List<Integer>div(List<Integer>values,Integer factor){
+	public static List<Integer>div(List<Integer>values,Integer factor){
 		return values.stream()
 				.map(n->{
 					try {
