@@ -9,7 +9,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Set;
 
-public class TimExample {
+public class TimeExample {
 
 	public static void main(String[] args) {
 		// now 根據目前的時間與日期來建立一個實例
