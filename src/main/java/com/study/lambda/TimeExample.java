@@ -1,13 +1,21 @@
 package com.study.lambda;
 
+import java.security.PublicKey;
+import java.time.DateTimeException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
+import java.time.Period;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
 import java.util.Set;
+
+import org.junit.jupiter.api.Test;
 
 public class TimeExample {
 
@@ -40,11 +48,68 @@ public class TimeExample {
 //		ZonedDateTime london = nyc.withZoneSameInstant(ZoneId.of("Europe/London"));
 //		System.out.println(london);
 
-		System.out.println("Days in Feb in a leap year: " + Month.FEBRUARY.length(true));
-		System.out.println("Days of year for first day of Aug (leap year): " + Month.AUGUST.firstDayOfYear(true));
-		System.out.println("Month.of(1): " + Month.of(1));
-		System.out.println("Adding two months: " + Month.JANUARY.plus(2));
-		System.out.println("Subtracting a months: " + Month.MARCH.minus(1));
+//		System.out.println("Days in Feb in a leap year: " + Month.FEBRUARY.length(true));
+//		System.out.println("Days of year for first day of Aug (leap year): " + Month.AUGUST.firstDayOfYear(true));
+//		System.out.println("Month.of(1): " + Month.of(1));
+//		System.out.println("Adding two months: " + Month.JANUARY.plus(2));
+//		System.out.println("Subtracting a months: " + Month.MARCH.minus(1));
+
 	}
 
+	// LocalDate 的 plus 方法
+	public void localDatePlus() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate start = LocalDate.of(2017, Month.FEBRUARY, 2);
+		LocalDate end = start.plusDays(3);
+		end = start.plusWeeks(5);
+		end = start.plusMonths(7);
+		end = start.plusYears(2);
+
+	}
+
+	// LocalTime 的 plus 方法
+	public void localTimePlus() {
+		DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_TIME;
+		LocalTime start = LocalTime.of(11, 30, 0, 0);
+		LocalTime end = start.plusNanos(1_000_000);
+		end = start.plusSeconds(20);
+		end = start.plusMinutes(45);
+		end = start.plusHours(5);
+
+	}
+
+	// LocalDateTime 的 plus 和 minus 方法
+	public void plus_minus() {
+		Period period = Period.of(2, 3, 4); // 兩年，三個用，四天
+		LocalDateTime start = LocalDateTime.of(2017, Month.FEBRUARY, 2, 11, 30);
+		LocalDateTime end = start.plus(period);
+		end = start.plus(3, ChronoUnit.HALF_DAYS);
+		end = start.minus(period);
+		end = start.minus(2, ChronoUnit.CENTURIES);
+		end = start.plus(3, ChronoUnit.MILLENNIA);
+
+	}
+
+	// LocalDateTime 的 with 方法
+	public void with() {
+		LocalDateTime start = LocalDateTime.of(2017, Month.FEBRUARY, 2, 11, 30);
+		LocalDateTime end = start.withMinute(45);
+		end = start.withHour(16);
+		end = start.withDayOfMonth(28);
+		end = start.withDayOfYear(300);
+		end = start.withYear(2020);
+	}
+
+	// 錯誤的用法
+	public void withInvalidDate() {
+		LocalDateTime start = LocalDateTime.of(2017, Month.FEBRUARY, 2, 11, 30);
+		start.withDayOfMonth(29);
+	}
+
+	// 將月份調整為有效值值
+	public void temporalField() {
+		LocalDateTime start = LocalDateTime.of(2017, Month.JANUARY, 31, 11, 30);
+		LocalDateTime end = start.with(ChronoField.MONTH_OF_YEAR, 2);
+
+	}
 }
