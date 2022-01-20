@@ -1,7 +1,10 @@
 package com.study.lambda;
 
+import static org.junit.Assert.assertEquals;
+
 import java.security.PublicKey;
 import java.time.DateTimeException;
+import java.time.DayOfWeek;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,6 +16,8 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -111,5 +116,17 @@ public class TimeExample {
 		LocalDateTime start = LocalDateTime.of(2017, Month.JANUARY, 31, 11, 30);
 		LocalDateTime end = start.with(ChronoField.MONTH_OF_YEAR, 2);
 
+	}
+
+	// 使用 TemporalAdjusters 的靜態方法
+	@Test
+	public void adjusters() {
+		LocalDateTime start = LocalDateTime.of(2017, Month.FEBRUARY, 2, 11, 30);
+		LocalDateTime end = start.with(TemporalAdjusters.firstDayOfNextMonth());
+		assertEquals("2017-03-01T11:30", end.toString());
+		end = start.with(TemporalAdjusters.next(DayOfWeek.THURSDAY));
+		assertEquals("2017-02-09T11:30", end.toString());
+		end = start.with(TemporalAdjusters.previousOrSame(DayOfWeek.THURSDAY));
+		assertEquals("2017-02-02T11:30", end.toString());
 	}
 }
