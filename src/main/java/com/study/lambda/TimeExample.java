@@ -14,13 +14,16 @@ import java.time.Period;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
+import java.util.Locale;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
+import org.w3c.dom.ls.LSOutput;
 
 public class TimeExample {
 
@@ -59,6 +62,37 @@ public class TimeExample {
 //		System.out.println("Adding two months: " + Month.JANUARY.plus(2));
 //		System.out.println("Subtracting a months: " + Month.MARCH.minus(1));
 
+		// 格式化日期
+		LocalDate date = LocalDate.of(2017, Month.MARCH, 13);
+		System.out.println("Full : " + date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)));
+		System.out.println("Long : " + date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG)));
+		System.out.println("Medium:" + date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
+		System.out.println("Short: " + date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)));
+
+		System.out.println(
+				"France:" + date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).withLocale(Locale.FRANCE)));
+		System.out.println("India :"
+				+ date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).withLocale(new Locale("hin", "IN"))));
+		System.out.println("Brazil:"
+				+ date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).withLocale(new Locale("pt", "BR"))));
+		System.out.println(
+				"Japan :" + date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).withLocale(Locale.JAPAN)));
+		Locale loc = new Locale.Builder().setLanguage("sr").setScript("Latn").setRegion("RS").build();
+		System.out
+				.println("Serbian:" + date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).withLocale(loc)));
+		
+		ZonedDateTime moonLanding=ZonedDateTime.of(LocalDate.of(1969, Month.JULY, 20), LocalTime.of(20, 18),ZoneId.of("UTC"));
+		System.out.println(moonLanding.format(DateTimeFormatter.ISO_ZONED_DATE_TIME));
+		
+		DateTimeFormatter formatter=DateTimeFormatter.ofPattern("uuuu/MMMM/dd hh:mm:ss a zzz GG");
+		System.out.println(moonLanding.format(formatter));
+		
+		formatter=DateTimeFormatter.ofPattern("uuuu/MMMM/dd hh:mm:ss a VV xxxxx");
+		System.out.println(moonLanding.format(formatter));
+		
+		// 將時鐘往前調
+		ZonedDateTime zdt=ZonedDateTime.of(2018,3,11,2,30,0,0,ZoneId.of("America/New_York"));
+		System.out.println(zdt.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)));
 	}
 
 	// LocalDate 的 plus 方法
@@ -129,4 +163,10 @@ public class TimeExample {
 		end = start.with(TemporalAdjusters.previousOrSame(DayOfWeek.THURSDAY));
 		assertEquals("2017-02-02T11:30", end.toString());
 	}
+
+	// 用來解析與格式化LocalDate的作法
+	LocalDateTime now = LocalDateTime.now();
+	String text = now.format(DateTimeFormatter.ISO_DATE_TIME);
+	LocalDateTime dateTime = LocalDateTime.parse(text);
+
 }
