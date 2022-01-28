@@ -67,32 +67,32 @@ public class FunnyOffsets {
 		ZoneOffset offset = ZoneOffset.ofHoursMinutes(hours, minutes);
 		return getRegionNamesForOffset(offset);
 	}
-	
+
 	// 測試指定偏移值的地區名稱
 	@Test
 	public void getRegionNamesForGMT() {
-		List<String>names=getRegionNamesForOffset(0, 0);
-		
+		List<String> names = getRegionNamesForOffset(0, 0);
+
 		assertTrue(names.contains("GMT"));
 		assertTrue(names.contains("Etc/GMT"));
 		assertTrue(names.contains("Etc/UTC"));
 		assertTrue(names.contains("UTC"));
 		assertTrue(names.contains("Etc/Zulu"));
 	}
-	
+
 	@Test
 	public void getRegionNamesForNepal() {
-		List<String>names=getRegionNamesForOffset(5, 45);
-		
+		List<String> names = getRegionNamesForOffset(5, 45);
+
 		assertTrue(names.contains("Asia/Kathmandu"));
 		assertTrue(names.contains("Asia/Katmandu"));
 	}
-	
+
 	@Test
 	public void getRegionNamesForChicago() {
-		ZoneId chicago=ZoneId.of("America/Chicago");
-		List<String>names=getRegionNamesForZoneId(chicago);
-		
+		ZoneId chicago = ZoneId.of("America/Chicago");
+		List<String> names = getRegionNamesForZoneId(chicago);
+
 		assertTrue(names.contains("America/Chicago"));
 		assertTrue(names.contains("US/Central"));
 		assertTrue(names.contains("Canada/Central"));
