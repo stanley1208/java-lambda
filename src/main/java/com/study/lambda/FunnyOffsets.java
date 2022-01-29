@@ -2,15 +2,22 @@ package com.study.lambda;
 
 import static org.junit.Assert.assertTrue;
 
+import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.Period;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.time.temporal.ChronoUnit;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Timer;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
@@ -32,7 +39,24 @@ public class FunnyOffsets {
 					System.out.printf("%10s %25s %10s%n", zdt.getOffset(), zoneId,
 							zdt.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)));
 				});
+		// 距離選舉日的天數
+		LocalDate electionDay = LocalDate.of(2022, Month.NOVEMBER, 8);
+		LocalDate today = LocalDate.now();
+		System.out.printf("%d day(s) to go...%n", ChronoUnit.DAYS.between(today, electionDay));
 
+		// 使用Period 來取得日、月與年
+		Period until = today.until(electionDay);
+		long years = until.getYears();
+		long months = until.getMonths();
+		long days = until.getDays();
+		System.out.printf("%d year(s), %d month(s), and %d day(s)%n", years, months, days);
+
+		Instant start = Instant.now();
+		// 計時
+		Timer timer = new Timer();
+		Instant end = Instant.now();
+
+		System.out.println(getTimimg(start, end) + " seconds");
 	}
 
 	// 用一個偏移植取得地區名稱
@@ -98,4 +122,10 @@ public class FunnyOffsets {
 		assertTrue(names.contains("Canada/Central"));
 		assertTrue(names.contains("Etc/GMT+5") || names.contains("Etc/GMT+6"));
 	}
+
+	// 計時一個方法
+	public static double getTimimg(Instant start, Instant end) {
+		return Duration.between(start, end).toMillis() / 1000.0;
+	}
+
 }
