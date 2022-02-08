@@ -9,6 +9,9 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
 import org.openjdk.jmh.annotations.*;
+import org.openjdk.jmh.runner.Runner;
+import org.openjdk.jmh.runner.options.Options;
+import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
@@ -82,7 +85,10 @@ public class DoublingDemo {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		org.openjdk.jmh.Main.main(args);
+		Options opt = new OptionsBuilder()
+	            .include(DoublingDemo.class.getSimpleName())
+	            .build();
+	        new Runner(opt).run();
 
 	}
 
