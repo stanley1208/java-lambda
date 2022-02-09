@@ -1,6 +1,7 @@
 package com.study.lambda;
 
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
@@ -84,12 +85,38 @@ public class DoublingDemo {
 				.sum();
 	}
 	
+	
+		
 	public static void main(String[] args) throws Exception {
-		Options opt = new OptionsBuilder()
-	            .include(DoublingDemo.class.getSimpleName())
-	            .build();
-	        new Runner(opt).run();
+//		Options opt = new OptionsBuilder()
+//	            .include(DoublingDemo.class.getSimpleName())
+//	            .build();
+//	        new Runner(opt).run();
 
+	     // 以程式指定公共池的大小   
+	     System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", "20");
+	     long total=LongStream.rangeClosed(1, 3_000_000)
+	    		 .parallel()
+	    		 .sum();
+	     int poolSize=ForkJoinPool.commonPool().getPoolSize();
+	     //System.out.println("Pool size: "+poolSize);
+	     
+	     // 建立自己的 ForkJoinPool
+	     ForkJoinPool pool=new ForkJoinPool(15);
+	     ForkJoinTask<Long>task=pool.submit(
+	    		 ()->LongStream.rangeClosed(1,3_000_000)
+	    		 .parallel()
+	    		 .sum());
+	     
+	     try {
+			task.get();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			pool.shutdown();
+		}
+	     poolSize=pool.getPoolSize();
+	     System.out.println("Pool size: "+poolSize);
 	}
 
 }
