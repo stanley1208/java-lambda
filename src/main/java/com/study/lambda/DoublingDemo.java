@@ -85,7 +85,18 @@ public class DoublingDemo {
 				.sum();
 	}
 	
-	
+	// 從 Future 取值
+	public static void getIfNotCancelled(Future<String>future) {
+		try {
+			if(!future.isCancelled()) {
+				System.out.println(future.get());
+			}else {
+				System.out.println("Cancelled");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 		
 	public static void main(String[] args) throws Exception {
 //		Options opt = new OptionsBuilder()
@@ -94,29 +105,60 @@ public class DoublingDemo {
 //	        new Runner(opt).run();
 
 	     // 以程式指定公共池的大小   
-	     System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", "20");
-	     long total=LongStream.rangeClosed(1, 3_000_000)
-	    		 .parallel()
-	    		 .sum();
-	     int poolSize=ForkJoinPool.commonPool().getPoolSize();
+//	     System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", "20");
+//	     long total=LongStream.rangeClosed(1, 3_000_000)
+//	    		 .parallel()
+//	    		 .sum();
+//	     int poolSize=ForkJoinPool.commonPool().getPoolSize();
 	     //System.out.println("Pool size: "+poolSize);
 	     
 	     // 建立自己的 ForkJoinPool
-	     ForkJoinPool pool=new ForkJoinPool(15);
-	     ForkJoinTask<Long>task=pool.submit(
-	    		 ()->LongStream.rangeClosed(1,3_000_000)
-	    		 .parallel()
-	    		 .sum());
-	     
-	     try {
-			task.get();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}finally {
-			pool.shutdown();
-		}
-	     poolSize=pool.getPoolSize();
-	     System.out.println("Pool size: "+poolSize);
+//	     ForkJoinPool pool=new ForkJoinPool(15);
+//	     ForkJoinTask<Long>task=pool.submit(
+//	    		 ()->LongStream.rangeClosed(1,3_000_000)
+//	    		 .parallel()
+//	    		 .sum());
+//	     
+//	     try {
+//			task.get();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}finally {
+//			pool.shutdown();
+//		}
+//	     poolSize=pool.getPoolSize();
+//	     System.out.println("Pool size: "+poolSize);
+		
+		// 送出一個 Callable 並回傳 Future
+		ExecutorService service=Executors.newCachedThreadPool();
+//		Future<String>future=service.submit(new Callable<String>() {
+//
+//			@Override
+//			public String call() throws Exception {
+//				Thread.sleep(100);
+//				return "Hello, World!";
+//			}
+//			
+//		});
+		
+//		System.out.println("Processing...");
+//		getIfNotCancelled(future);
+		
+		Future<String>future=service.submit(()->{
+			Thread.sleep(100);
+			return "Hello, World!";
+		});
+		
+		// 取消 Future
+		future.cancel(true);
+		
+		System.out.println("Even More Processing...");
+		
+//		while(!future.isDone()){
+//			System.out.println("Waiting...");
+//		}
+		
+		getIfNotCancelled(future);
 	}
 
 }
