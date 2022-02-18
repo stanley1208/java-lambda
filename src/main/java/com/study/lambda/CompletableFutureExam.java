@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 
 import javax.management.RuntimeErrorException;
@@ -98,7 +100,61 @@ public class CompletableFutureExam {
 			}
 		}
 	
+		// 使用 CompletableFuture 協調工作 
+		private static String sleepThenReturnString() {
+			try { 
+				Thread.sleep(100);
+			} catch (Exception e) {
+				
+			}
+			return "42";
+		}
+		
+		// 結合兩個 Futures
+		@Test
+		public void compose() throws Exception {
+			int x=2;
+			int y=3;
+			CompletableFuture<Integer>completableFuture=CompletableFuture
+					.supplyAsync(() -> x)
+					.thenCompose(n->CompletableFuture.supplyAsync(() -> n+y));
+			assertTrue(5==completableFuture.get());
+		}
+		
+		// 使用 Handle 方法
+		private CompletableFuture<Integer> getIntegerCompletableFuture(String num){
+			return CompletableFuture.supplyAsync(() -> Integer.parseInt(num))
+					.handle((val, exc) -> val!=null?val:0);
+		}
+		
+		@Test
+		public void handleWithException() throws Exception{
+			String num="";
+			CompletableFuture<Integer>value=getIntegerCompletableFuture(num);
+			assertTrue(value.get()==0);
+		}
+		
+		@Test
+		public void handleWithoutException() throws Exception{
+			String num="42";
+			CompletableFuture<Integer>value=getIntegerCompletableFuture(num);
+			assertTrue(value.get()==42);
+		}
+		
 	public static void main(String[] args) {
+		
+		// 在個別的執行緒池執行 CompletableFuture 工作
+		ExecutorService service=Executors.newFixedThreadPool(4);
+		
+		CompletableFuture.supplyAsync(()->CompletableFutureExam.sleepThenReturnString(),service)
+								.thenApply(Integer::parseInt)
+								.thenApply(x->2*x)
+								.thenAccept(System.out::println)
+								.join();
+										
+		System.out.println("Running...");
 		
 	}
 }
+
+
