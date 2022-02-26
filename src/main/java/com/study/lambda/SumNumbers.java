@@ -1,11 +1,13 @@
 package com.study.lambda;
 
+import java.util.List;
 import java.util.function.IntPredicate;
 import java.util.stream.IntStream;
 
 import javax.print.attribute.IntegerSyntax;
 
-import org.apache.commons.math3.analysis.function.Add;
+
+import org.junit.Test;
 
 // 介面內的私用方法
 public interface SumNumbers {
@@ -23,5 +25,7 @@ public interface SumNumbers {
 				.filter(predicate)
 				.sum();
 	}
+	
+	
 	
 }

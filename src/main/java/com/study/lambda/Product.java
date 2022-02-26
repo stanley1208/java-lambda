@@ -1,6 +1,6 @@
 package com.study.lambda;
 
-import org.omg.CORBA.PRIVATE_MEMBER;
+
 
 public class Product {
 	private Integer id;
