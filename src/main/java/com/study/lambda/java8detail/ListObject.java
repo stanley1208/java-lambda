@@ -15,7 +15,7 @@ public class ListObject {
 		objects.add(LocalDate.now());
 		objects.add(3);
 		System.out.println(objects);
-
+		// 在 List<Object> 使用物件
 		List<String> strings = new ArrayList<>();
 		String s = "abc";
 		Object o = s;
