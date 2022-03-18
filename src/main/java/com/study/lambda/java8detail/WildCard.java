@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import org.apache.commons.math3.ode.ContinuousOutputModel;
 
@@ -39,9 +40,18 @@ public class WildCard {
 				new BigDecimal("5.0")
 		);
 		
-		System.out.printf("ints sum is  %s%n",sumList2(ints2));
-		System.out.printf("doubles sum is  %s%n",sumList2(doubles));
-		System.out.printf("big decimals sum is  %s%n",sumList2(bigDecimals));
+//		System.out.printf("ints sum is  %s%n",sumList2(ints2));
+//		System.out.printf("doubles sum is  %s%n",sumList2(doubles));
+//		System.out.printf("big decimals sum is  %s%n",sumList2(bigDecimals));
+		
+		ArrayList<Integer>integerList=new ArrayList<>();
+		ArrayList<Number>numberList=new ArrayList<>();
+		ArrayList<Object>objectList=new ArrayList<>();
+		
+		numUpTo(5,integerList);
+		numUpTo(5,numberList);
+		numUpTo(5,objectList);
+		
 	}
 
 	// 作為方法引數的無界 List
@@ -63,6 +73,12 @@ public class WildCard {
 		return list.stream()
 				.mapToDouble(Number::doubleValue)
 				.sum();
+	}
+	
+	// 填寫指定串列的方法
+	public static void numUpTo(Integer num,List<? super Integer>output) {
+		IntStream.rangeClosed(1, num)
+		.forEach(output::add);
 	}
 	
 }
