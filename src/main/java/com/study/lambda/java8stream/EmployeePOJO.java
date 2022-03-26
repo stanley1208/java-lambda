@@ -1,11 +1,10 @@
 package com.study.lambda.java8stream;
 
 public class EmployeePOJO {
-	public static final EmployeePOJO DEFAULT_EMPLOYEE=new EmployeePOJO(4,"Klay Thompson");
+	public static EmployeePOJO DEFAULT_EMPLOYEE=new EmployeePOJO(4,"Klay Thompson");
 	private int id;
 	private String name;
 	public EmployeePOJO(int id, String name) {
-		super();
 		this.id = id;
 		this.name = name;
 	}
