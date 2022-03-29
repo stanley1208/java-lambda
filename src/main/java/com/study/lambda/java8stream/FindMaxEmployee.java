@@ -3,6 +3,10 @@ package com.study.lambda.java8stream;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.TooManyListenersException;
+import java.util.stream.Collectors; 
+import java.util.stream.Stream; 
+
 import static java.util.Comparator.comparing;
 import static java.util.Comparator.comparingInt;
 
@@ -47,6 +51,15 @@ public class FindMaxEmployee {
 		
 		System.out.println(maxId2);
 		System.out.println(maxName2);
+		
+		// 將 List<EmployeePOJO> 對應至 List<String>
+		List<String>names=employees.stream()
+				.map(EmployeePOJO::getName)
+				.collect(Collectors.toList());
+		
+		List<String>strings=employees.stream()
+				.map(Object::toString)
+				.collect(Collectors.toList());
 	}
 
 }
