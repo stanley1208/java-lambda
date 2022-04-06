@@ -13,14 +13,14 @@ import static java.util.Comparator.comparingInt;
 public class FindMaxEmployee {
 
 	public static void main(String[] args)throws Exception {
-		// 找出最大的 Employee (舊的方法)
+		
 		List<EmployeePOJO>employees=Arrays.asList(
 				new EmployeePOJO(1,"Seth Curry"),
 				new EmployeePOJO(2,"Kevin Durant"),
 				new EmployeePOJO(3,"Draymond Green"),
 				new EmployeePOJO(4,"Klay Thompson")
 				);
-		
+		// 找出最大的 Employee (舊的方法)
 		EmployeePOJO maxId=employees.stream()
 				.max(new Comparator<EmployeePOJO>() {
 					@Override
